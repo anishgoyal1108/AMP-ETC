@@ -10,6 +10,7 @@ from enum import Enum
 import time
 import socket
 import json
+from time import sleep
 from itertools import chain
 
 # ~~~~~============== CONFIGURATION  ==============~~~~~
@@ -26,8 +27,8 @@ team_name = "TAUROS"
 def on_startup(state_manager):
     """Called immediately after the exchange's HELLO message. This lets you setup your
     initial state and orders"""
-    state_manager.send_order(dir="BUY", price=1001, size=10, symbol="BOND")
-
+    state_manager.send_order(dir="BUY", price=999, size=15, symbol="BOND")
+    state_manager.send_order(dir="SELL", price=1001, size=15, symbol="BOND")
 
 def on_book(state_manager, book_message):
     """Called whenever the book for a symbol updates."""
@@ -58,7 +59,6 @@ def main():
     hello_message = exchange.read_message()
     print("our current state:", hello_message)
     state_manager.on_hello(hello_message)
-
     on_startup(state_manager)
 
     # Here is the main loop of the program. It will continue to read and
