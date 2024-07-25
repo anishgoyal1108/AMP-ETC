@@ -36,7 +36,8 @@ def on_book(state_manager, book_message):
 
 def on_fill(state_manager, fill_message):
     """Called when one of your orders is filled."""
-    pass
+    print(f"Order filled: {fill_message}")
+    return
 
 
 def on_trade(state_manager, trade_message):
@@ -55,12 +56,11 @@ def main():
     # all positions at zero, but if you reconnect during a round, you might
     # have already bought/sold symbols and have non-zero positions.
     hello_message = exchange.read_message()
-    print("First message from exchange:", hello_message)
+    print("our current state:", hello_message)
     state_manager.on_hello(hello_message)
 
     on_startup(state_manager)
 
-    input()
     # Here is the main loop of the program. It will continue to read and
     # process messages in a loop until a "close" message is received. You
     # should write to code handle more types of messages (and not just print
