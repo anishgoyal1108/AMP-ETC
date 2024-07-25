@@ -1,2 +1,2 @@
 #!/bin/sh
-while true; do ./bond-bot.py --production; sleep 5; done
+while true; do ./random-hi-simple.py --production; sleep 2; done

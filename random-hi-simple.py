@@ -4,13 +4,13 @@
 # 2) Change permissions: chmod +x bot.py
 # 3) Run in loop: while true; do ./bot.py --test prod-like; sleep 1; done
 
+import random
 import argparse
 from collections import deque
 from enum import Enum
 import time
 import socket
 import json
-from time import sleep
 from itertools import chain
 
 # ~~~~~============== CONFIGURATION  ==============~~~~~
@@ -23,21 +23,47 @@ team_name = "TAUROS"
 # but feel free to change/remove/edit/update any of it as you'd like. If you
 # have any questions about the starter code, or what to do next, please ask us!
 
+looked_at_first = [False]
+selection = random.choice(["GS", "MS", "WFC"])
+
 
 def on_startup(state_manager):
     """Called immediately after the exchange's HELLO message. This lets you setup your
     initial state and orders"""
-    state_manager.send_order(dir="BUY", price=999, size=10, symbol="BOND")
-    state_manager.send_order(dir="SELL", price=1001, size=10, symbol="BOND")
+    state_manager.send_order(dir="BUY", price=999, size=60, symbol="BOND")
+    state_manager.send_order(dir="SELL", price=1001, size=60, symbol="BOND")
 
-def on_book(state_manager, book_message):
+
+def on_book(
+    state_manager, book_message, looked_at_first=looked_at_first, selection=selection
+):
     """Called whenever the book for a symbol updates."""
-    pass
+    if not looked_at_first[0]:
+        if book_message["symbol"] == selection:
+            buy_avg = sum([sub_arr[0] for sub_arr in book_message["buy"]]) / len(
+                book_message["buy"]
+            )
+            sell_avg = sum([sub_arr[0] for sub_arr in book_message["sell"]]) / len(
+                book_message["sell"]
+            )
+
+            state_manager.send_order(
+                symbol=selection, dir="BUY", price=int(buy_avg - 2), size=15
+            )
+            state_manager.send_order(
+                symbol=selection, dir="SELL", price=int(sell_avg + 2), size=15
+            )
+            looked_at_first[0] = True
 
 
 def on_fill(state_manager, fill_message):
     """Called when one of your orders is filled."""
     print(f"Order filled: {fill_message}")
+    if fill_message["symbol"] == "BOND":
+        if fill_message["dir"] == "BUY":
+            state_manager.send_order(dir="SELL", price=1001, size=1, symbol="BOND")
+        elif fill_message["dir"] == "SELL":
+            state_manager.send_order(dir="BUY", price=999, size=1, symbol="BOND")
     return
 
 
@@ -95,16 +121,16 @@ def main():
             state_manager.on_fill(message)
             on_fill(state_manager, message)
         elif message["type"] == "trade":
-            print(message)
+            # print(message)
             on_trade(state_manager, message)
         elif message["type"] == "ack":
             print(message)
             state_manager.on_ack(message)
         elif message["type"] == "out":
-            print(message)
+            # print(message)
             state_manager.on_out(message)
         elif message["type"] == "book":
-            print(message)
+            # print(message)
             on_book(state_manager, message)
 
 
