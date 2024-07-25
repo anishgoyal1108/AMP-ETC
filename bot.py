@@ -26,7 +26,7 @@ team_name = "TAUROS"
 def on_startup(state_manager):
     """Called immediately after the exchange's HELLO message. This lets you setup your
     initial state and orders"""
-    pass
+    state_manager.send_order(dir="BUY", price=1001, size=10, symbol="BOND")
 
 
 def on_book(state_manager, book_message):
