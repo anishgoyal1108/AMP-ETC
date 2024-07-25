@@ -14,7 +14,7 @@ from itertools import chain
 
 # ~~~~~============== CONFIGURATION  ==============~~~~~
 # Replace "REPLACEME" with your team name!
-team_name = "MACHOP"
+team_name = "TAUROS"
 
 # ~~~~~============== MAIN LOOP ==============~~~~~
 
