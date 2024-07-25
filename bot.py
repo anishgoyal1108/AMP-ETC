@@ -60,6 +60,7 @@ def main():
 
     on_startup(state_manager)
 
+    input()
     # Here is the main loop of the program. It will continue to read and
     # process messages in a loop until a "close" message is received. You
     # should write to code handle more types of messages (and not just print
