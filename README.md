@@ -39,5 +39,5 @@ The key to success lies in your ability to adapt quickly and learn the mechanics
 
 **NOTE:** During our competition, the testing servers were broken for approximately 80% of the time. If you have access to a testing environment, make sure to test your algorithms thoroughly before deploying them to production.
 
-Lastly, don't take the challenge too seriously. Take some risks, enjoy the process, and have fun!
+Lastly, don't take the challenge too seriously. ~~Gamble all your money~~ Take some risks, enjoy the process, and have fun!
 
