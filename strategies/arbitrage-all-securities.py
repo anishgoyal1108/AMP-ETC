@@ -10,7 +10,6 @@ from enum import Enum
 import time
 import socket
 import json
-from time import sleep
 from itertools import chain
 
 # ~~~~~============== CONFIGURATION  ==============~~~~~
@@ -23,21 +22,80 @@ team_name = "TAUROS"
 # but feel free to change/remove/edit/update any of it as you'd like. If you
 # have any questions about the starter code, or what to do next, please ask us!
 
+looked_at_first = [False, False, False]
+symbols_arr = ["GS", "MS", "WFC"]
+buy_sell_avgs = []
+
 
 def on_startup(state_manager):
     """Called immediately after the exchange's HELLO message. This lets you setup your
     initial state and orders"""
-    state_manager.send_order(dir="BUY", price=999, size=10, symbol="BOND")
-    state_manager.send_order(dir="SELL", price=1001, size=10, symbol="BOND")
+    state_manager.send_order(dir="BUY", price=999, size=60, symbol="BOND")
+    state_manager.send_order(dir="SELL", price=1001, size=60, symbol="BOND")
 
-def on_book(state_manager, book_message):
+
+def on_book(
+    state_manager,
+    book_message,
+    looked_at_first=looked_at_first,
+    buy_sell_avgs=buy_sell_avgs,
+):
     """Called whenever the book for a symbol updates."""
-    pass
+    for i in range(len(symbols_arr)):
+        if not looked_at_first[i]:
+            if book_message["symbol"] == symbols_arr[i]:
+                buy_avg = sum([sub_arr[0] for sub_arr in book_message["buy"]]) / len(
+                    book_message["buy"]
+                )
+                sell_avg = sum([sub_arr[0] for sub_arr in book_message["sell"]]) / len(
+                    book_message["sell"]
+                )
+
+                state_manager.send_order(
+                    symbol=symbols_arr[i], dir="BUY", price=int(buy_avg - 2), size=5
+                )
+                state_manager.send_order(
+                    symbol=symbols_arr[i], dir="SELL", price=int(sell_avg + 2), size=5
+                )
+                looked_at_first[i] = True
+                buy_sell_avgs.append((buy_avg, sell_avg))
 
 
 def on_fill(state_manager, fill_message):
     """Called when one of your orders is filled."""
     print(f"Order filled: {fill_message}")
+    if fill_message["symbol"] == "BOND":
+        if fill_message["dir"] == "BUY":
+            state_manager.send_order(dir="SELL", price=1001, size=1, symbol="BOND")
+        elif fill_message["dir"] == "SELL":
+            state_manager.send_order(dir="BUY", price=999, size=1, symbol="BOND")
+    elif fill_message["symbol"] == "GS":
+        if fill_message["dir"] == "BUY":
+            state_manager.send_order(
+                dir="SELL", price=int(buy_sell_avgs[0][0] - 2), size=1, symbol="GS"
+            )
+        elif fill_message["dir"] == "SELL":
+            state_manager.send_order(
+                dir="BUY", price=int(buy_sell_avgs[0][1] + 2), size=1, symbol="GS"
+            )
+    elif fill_message["symbol"] == "MS":
+        if fill_message["dir"] == "BUY":
+            state_manager.send_order(
+                dir="SELL", price=int(buy_sell_avgs[0][0] - 2), size=1, symbol="MS"
+            )
+        elif fill_message["dir"] == "SELL":
+            state_manager.send_order(
+                dir="BUY", price=int(buy_sell_avgs[0][1] + 2), size=1, symbol="MS"
+            )
+    elif fill_message["symbol"] == "WFC":
+        if fill_message["dir"] == "BUY":
+            state_manager.send_order(
+                dir="SELL", price=int(buy_sell_avgs[0][0] - 2), size=1, symbol="WFC"
+            )
+        elif fill_message["dir"] == "SELL":
+            state_manager.send_order(
+                dir="BUY", price=int(buy_sell_avgs[0][1] + 2), size=1, symbol="WFC"
+            )
     return
 
 
@@ -95,16 +153,16 @@ def main():
             state_manager.on_fill(message)
             on_fill(state_manager, message)
         elif message["type"] == "trade":
-            print(message)
+            # print(message)
             on_trade(state_manager, message)
         elif message["type"] == "ack":
             print(message)
             state_manager.on_ack(message)
         elif message["type"] == "out":
-            print(message)
+            # print(message)
             state_manager.on_out(message)
         elif message["type"] == "book":
-            print(message)
+            # print(message)
             on_book(state_manager, message)
 
 
@@ -293,11 +351,14 @@ class State_manager:
             position = symbol_position["position"]
             self.positions_by_symbol[symbol] = position
 
-    def on_reject(self, message):
+    def on_reject(
+        self, message, symbols_arr=symbols_arr, looked_at_first=looked_at_first
+    ):
         """Handle a reject message by removing that order from the live set of orders"""
         assert message["type"] == "reject"
         order_id = message["order_id"]
         order = self.unacked_orders.pop(order_id)
+
         print("Got a reject on order_id", order_id)
 
     def send_order(self, symbol, dir, price, size):

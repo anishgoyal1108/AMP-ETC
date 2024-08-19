@@ -1,2 +1,2 @@
 #!/bin/sh
-while true; do ./random-hi-simple.py --production; sleep 2; done
+while true; do ./strategies/arbitrage-all-securities.py --production; sleep 2; done
