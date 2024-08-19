@@ -1,4 +1,4 @@
-# Electronic Trading Challenge Trading Bots
+# Jane Street Electronic Trading Challenge Trading Bots
 
 ![](https://eco-cdn.iqpc.com/eco/images/partners/8wKbGOn7mj9kADeHdoPImckCLhMcJjimFUN14Jnk.png)
 
@@ -7,7 +7,7 @@
 - Archita Singh [@architasingh0825](https://github.com/architasingh0825)
 
 ## Introduction
-Jane Street Capital Group hosts a summer program called the Academy of Math and Programming (AMP), where participants engage in the inaugural Electronic Trading Challenge (ETC). The competition involves a central server where various bots operate in the backend, buying and selling securities. All trades are publicly available on a digital exchange and are printed in real time. The challenge requires participants to interact with the REST API, according to provided specifications, to make trades with these bots and maximize profits. The boilerplate code provided by Jane Street allowed us to focus on developing and refining our trading algorithms.
+Jane Street Capital Group hosts a summer program called the Academy of Math and Programming (AMP), where participants engage in the inaugural Electronic Trading Challenge (ETC). The competition involves a central server where various bots operate in the backend, buying and selling securities. All trades are publicly available on a digital exchange and are printed in real time. The challenge requires participants to interact with the REST API, according to provided specifications, to make trades with these bots and maximize profits. The boilerplate code provided by Jane Street allowed us to focus on developing and refining our trading algorithms. Our team was `TAUROS` (every team was named after a Pokémon).
 
 ### Types of Securities:
 - **BOND**
