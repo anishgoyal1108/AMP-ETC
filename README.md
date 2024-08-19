@@ -1,5 +1,7 @@
 # Electronic Trading Challenge Trading Bots
 
+![](https://eco-cdn.iqpc.com/eco/images/partners/8wKbGOn7mj9kADeHdoPImckCLhMcJjimFUN14Jnk.png)
+
 ## Authors
 - Anish Goyal [@anishgoyal1108](https://github.com/anishgoyal1108)
 - Archita Singh [@architasingh0825](https://github.com/architasingh0825)
