@@ -7,7 +7,7 @@
 - Archita Singh [@architasingh0825](https://github.com/architasingh0825)
 
 ## Introduction
-Jane Street Capital Group hosts a summer program called the Academy of Math and Programming (AMP), where participants engage in the inaugural Electronic Trading Challenge (ETC). The competition involves a central server where various bots operate in the backend, buying and selling securities. All trades are publicly available on a digital exchange and are printed in real time. The challenge requires participants to interact with the REST API, according to provided specifications, to make trades with these bots and maximize profits. The boilerplate code provided by Jane Street allowed us to focus on developing and refining our trading algorithms. Our team was `TAUROS` (every team was named after a Pokémon).
+Jane Street Group, LLC. hosts a summer program called the Academy of Math and Programming (AMP), where participants engage in the inaugural Electronic Trading Challenge (ETC). The competition involves a central server where various bots operate in the backend, buying and selling securities. All trades are publicly available on a digital exchange and are printed in real time. The challenge requires participants to interact with the REST API, according to provided specifications, to make trades with these bots and maximize profits. The boilerplate code provided by Jane Street allowed us to focus on developing and refining our trading algorithms. Our team was `TAUROS` (every team was named after a Pokémon).
 
 ### Types of Securities:
 - **BOND**
@@ -20,7 +20,7 @@ Jane Street Capital Group hosts a summer program called the Academy of Math and 
 Pennying is a trading strategy that involves placing orders slightly better than the best bid or ask to gain priority in trade execution. This approach was challenging to implement effectively due to the fast-paced nature of the competition and the need to constantly update bids and asks in response to market conditions.
 
 ### Arbitrage
-ETFs presented significant arbitrage opportunities, as the bots generally traded within a threshold close to the average of all stocks. A $100 conversion fee allowed us to convert 3 BOND, 2 GS, 3 MS, and 2 WFC into 10 XLF shares, creating potential for profitable arbitrage. We leveraged this by closely monitoring price discrepancies between the ETFs and their underlying assets.
+ETFs presented significant arbitrage opportunities, as the bots generally traded within a threshold close to the average of each security. A $100 conversion fee allowed us to convert 3 BOND, 2 GS, 3 MS, and 2 WFC into 10 XLF shares, creating potential for profitable arbitrage. We leveraged this by closely monitoring price discrepancies between the ETFs and their underlying assets.
 
 ### Buying Below Fair Value for Bonds
 Bonds had a fixed fair value of $1000, which made this strategy straightforward. We focused on buying bonds below their fair value and selling them at a slightly higher price. This method was simple yet effective (especially in the beginning when most teams weren't set up yet), as it allowed us to profit from predictable price movements.
